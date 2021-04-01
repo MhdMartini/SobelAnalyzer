@@ -1,15 +1,15 @@
 
-butterworth: butterworth.o Four2.o imageIo.o
-	gcc butterworth.o Four2.o imgIo.o -o butterworth -lm
+sobel: SobelAnalyzer.o imageIo.o imgOp.o
+	gcc SobelAnalyzer.o imgIo.o imgOp.o -o SobelAnalyzer
 
-butterworth.o: butterworth.c
-	gcc -c butterworth.c
+SobelAnalyzer.o: SobelAnalyzer.c
+	gcc -c SobelAnalyzer.c
 
 imageIo.o: imgIo.c imgIo.h
 	gcc -c imgIo.c
 
-Four2.o: Four2.c Four2.h
-	gcc -c Four2.c Four2_Private.h
+imgOp.o: imgOp.c imgOp.h
+    gcc -c imgOp.c
 
 clean:
 	rm *.o
