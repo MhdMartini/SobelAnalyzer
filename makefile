@@ -1,8 +1,8 @@
-sobel: SobelAnalyzer.o imageIo.o imgOp.o
-	gcc SobelAnalyzer.o imgIo.o imgOp.o -o SobelAnalyzer
+sobel: sobel.o imageIo.o imgOp.o
+	gcc sobel.o imgIo.o imgOp.o -o sobel
 
-SobelAnalyzer.o: SobelAnalyzer.c
-	gcc -c SobelAnalyzer.c
+sobel.o: sobel.c
+	gcc -c sobel.c
 
 imageIo.o: imgIo.c imgIo.h
 	gcc -c imgIo.c
