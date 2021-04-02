@@ -146,7 +146,7 @@ unsigned char * normalize(signed * imgConv, unsigned sizeX, unsigned sizeY) {
     imgNorm = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
     for (unsigned i = 0; i < sizeX * sizeY; i++){
         // get min and max
-        imgConv[i] *= (imgConv[i] < 0) ? -1 : 1;
+        imgConv[i] *= (imgConv[i] < 0) ? -1 : 1;  // modify input
         if (imgConv[i] > max){
             max = imgConv[i];
         }

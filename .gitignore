@@ -1,7 +1,8 @@
-SobelAnalyzer
-SobelAnalyzer.o
+sobel
+sobel.o
 imgIo.o
 imgOp.o
-V.pgm
-H.pgm
+horizontal.pgm
+vertical.pgm
 sobel.pgm
+sobel_binary.pgm

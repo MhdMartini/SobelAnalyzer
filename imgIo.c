@@ -46,4 +46,3 @@ void writeImg(char imgName[], unsigned char *image, unsigned sizeX, unsigned siz
     fclose(iFile);
     return;
 }
-

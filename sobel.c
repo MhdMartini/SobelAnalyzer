@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
     // parse input arguments
     char * imgSobelPath;
     for (unsigned i = 1; i < argc; i += 2){
-        if (strcmp(argv[i], "--image_sobel") == 0){
+        if (strcmp(argv[i], "--path") == 0){
             imgSobelPath = argv[i + 1];
         }
     }
@@ -59,13 +59,10 @@ int main(int argc, char *argv[]){
     unsigned char * imgPadded = imgPad(img, sizeX, sizeY);
 
     signed * imgConvV = imgConv(imgPadded, sobelV, sizeXBig, sizeYBig);  // result is not padded
-    unsigned char * imgConvVN = normalize(imgConvV, sizeX, sizeY);  // debugging
-    writeImg(imgV, imgConvVN, sizeX, sizeY);  // debugging
+    normalize(imgConvV, sizeX, sizeY);
 
     signed * imgConvH = imgConv(imgPadded, sobelH, sizeXBig, sizeYBig);  // result is not padded
-    unsigned char * imgConvHN = normalize(imgConvH, sizeX, sizeY);  // debugging
-    writeImg(imgH, imgConvHN, sizeX, sizeY);  // debugging
-
+    normalize(imgConvH, sizeX, sizeY);
 
     // combine, normalize and save image
     signed * imgSobel = imgAdd(imgConvV, imgConvH, sizeX, sizeY);  // add vertical and horizontal filters
