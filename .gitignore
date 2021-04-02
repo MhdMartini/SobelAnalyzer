@@ -3,3 +3,5 @@ SobelAnalyzer.o
 imgIo.o
 imgOp.o
 V.pgm
+H.pgm
+sobel.pgm
