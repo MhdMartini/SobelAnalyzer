@@ -1,7 +1,31 @@
+/*
+    Script to perform image operations necessary for spatial 3x3 filter applications
+    Author  :   Mohamed Martini
+    Date    :   04/01/2021
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+
+unsigned * get_size(char imgName[])
+{
+    // take in image name in return its size as [sizeX, sizeY]
+    unsigned sizeX;  // width
+    unsigned sizeY;  // height
+    unsigned levels;
+    unsigned *size;
+    size=(unsigned *) malloc(2);
+
+    FILE *iFile = fopen(imgName,"r");
+    if(iFile==0) return 0;
+    if (3 != fscanf(iFile, "P5 %d %d %d ", &sizeX, &sizeY, &levels)) return 0;
+    size[0] = sizeX;
+    size[1] = sizeY;
+
+    return size;
+}
 
 unsigned * get_coords(unsigned index, unsigned sizeX)
 {
