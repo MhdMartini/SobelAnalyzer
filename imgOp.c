@@ -146,6 +146,7 @@ unsigned char * normalize(signed * imgConv, unsigned sizeX, unsigned sizeY) {
     imgNorm = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
     for (unsigned i = 0; i < sizeX * sizeY; i++){
         // get min and max
+        imgConv[i] *= (imgConv[i] < 0) ? -1 : 1;
         if (imgConv[i] > max){
             max = imgConv[i];
         }
@@ -161,12 +162,13 @@ unsigned char * normalize(signed * imgConv, unsigned sizeX, unsigned sizeY) {
     return imgNorm;
 }
 
-unsigned char * imgAdd(unsigned char * img1, unsigned char * img2, unsigned sizeX, unsigned sizeY){
-    unsigned char * result;
-    result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
+signed * imgAdd(signed * img1, signed * img2, unsigned sizeX, unsigned sizeY){
+    // add filtered images
+    signed * result;
+    result = (signed*) calloc(sizeof(signed), sizeX * sizeY);
     for (unsigned index = 0; index < sizeX * sizeY; index++){
         result[index] = img1[index] + img2[index];
-        // result[index] = MIN(img1[index], img2[index]);
     }
     return result;
 }
+
