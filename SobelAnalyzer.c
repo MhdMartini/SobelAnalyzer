@@ -16,6 +16,10 @@ signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 
 unsigned NUM_ARGS = 3;  // number if command line arguments
 
+char imgH[] = "horizontal.pgm";
+char imgV[] = "vertical.pgm";
+char imgS[] = "sobel.pgm";
+
 void print_help(){
     // print help menu
     printf("\n********************************** SOBEL ANALYZER **********************************\n\n");
@@ -52,23 +56,18 @@ int main(int argc, char *argv[]){
     unsigned sizeXBig = sizeX + 2;  // size of padded image
     unsigned sizeYBig = sizeY + 2;
 
-    // unsigned char * imgPadded = imgPad(img, sizeXBig, sizeYBig);
-
     unsigned char * imgPadded = imgPad(img, sizeXBig, sizeYBig);
 
     signed * imgConvV = imgConv(imgPadded, sobelV, sizeXBig, sizeYBig);  // result is not padded
     unsigned char * imgConvVN = normalize(imgConvV, sizeX, sizeY);
-
-    writeImg("V.pgm", imgConvVN, sizeX, sizeY);
+    writeImg(imgV, imgConvVN, sizeX, sizeY);
 
     signed * imgConvH = imgConv(imgPadded, sobelH, sizeXBig, sizeYBig);  // result is not padded
     unsigned char * imgConvHN = normalize(imgConvH, sizeX, sizeY);
+    writeImg(imgH, imgConvHN, sizeX, sizeY);
 
-    writeImg("H.pgm", imgConvHN, sizeX, sizeY);
-
-    unsigned char * imgSobel = imgAdd(imgConvVN, imgConvHN, sizeX, sizeY);
-
-    writeImg("test.pgm", imgSobel, sizeX, sizeY);
+    unsigned char * imgSobel = imgAdd(imgConvVN, imgConvHN, sizeX, sizeY);  // add vertical and horizontal filters
+    writeImg(imgS, imgSobel, sizeX, sizeY);
 
     return 0;
 }
