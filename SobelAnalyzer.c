@@ -15,7 +15,6 @@ signed sobelV[9] = {1, 0, -1, 2, 0, -2, 1, 0, -1};
 signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 
 unsigned NUM_ARGS = 3;  // number if command line arguments
-char CAKE_IMG[] = "test_images/cake.pgm";
 
 void print_help(){
     // print help menu
@@ -35,7 +34,7 @@ int main(int argc, char *argv[]){
     }
 
     // initialize default arguments
-    char * imgSobelPath = CAKE_IMG;
+    char * imgSobelPath;
 
 
     // parse input arguments
