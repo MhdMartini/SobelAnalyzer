@@ -172,3 +172,11 @@ signed * imgAdd(signed * img1, signed * img2, unsigned sizeX, unsigned sizeY){
     return result;
 }
 
+unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, unsigned sizeY){
+    unsigned char * result;
+    result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
+    for (unsigned i = 0; i < sizeX * sizeY; i++){
+        result[i] = 255 * (img[i] > threshold);
+    }
+    return result;
+}

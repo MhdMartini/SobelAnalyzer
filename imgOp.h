@@ -11,4 +11,5 @@ unsigned char * imgPad(unsigned char *img, unsigned sizeX, unsigned sizeY);
 signed* imgConv(unsigned char *img, signed filter[9], unsigned sizeX, unsigned sizeY);
 unsigned char * normalize(signed * imgConv, unsigned sizeX, unsigned sizeY);
 signed * imgAdd(signed * img1, signed * img2, unsigned sizeX, unsigned sizeY);
+unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, unsigned sizeY);
 #endif

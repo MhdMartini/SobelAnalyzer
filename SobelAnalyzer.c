@@ -13,7 +13,7 @@
 // vertical and horizontal sobel filters
 signed sobelV[9] = {1, 0, -1, 2, 0, -2, 1, 0, -1};
 signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
-unsigned thresh= 50;  // if (pixel < 50) or (255 - pixel < 50) turn white otherwise black
+unsigned THRESHOLD = 55;  // above: white, below: black
 
 
 unsigned NUM_ARGS = 3;  // number if command line arguments
@@ -21,12 +21,13 @@ unsigned NUM_ARGS = 3;  // number if command line arguments
 char imgH[] = "horizontal.pgm";
 char imgV[] = "vertical.pgm";
 char imgS[] = "sobel.pgm";
+char imgSB[] = "sobel_binary.pgm";
 
 void print_help(){
     // print help menu
     printf("\n********************************** SOBEL ANALYZER **********************************\n\n");
     printf("Please run the SobelAnalyzer as follows:\n\n\t./SobelAnalyzer --image_sobel IMAGE_PATH\n");
-    printf("\n\t--image_sobel\tPath to the Sobel filter input image\n");
+    printf("\n\tIMAGE_PATH\tPath to the Sobel filter input image\n");
 }
 
 int main(int argc, char *argv[]){
@@ -56,7 +57,6 @@ int main(int argc, char *argv[]){
     unsigned sizeYBig = sizeY + 2;
 
     unsigned char * imgPadded = imgPad(img, sizeX, sizeY);
-    writeImg("imgPadded.pgm", imgPadded, sizeXBig, sizeYBig);  // debugging
 
     signed * imgConvV = imgConv(imgPadded, sobelV, sizeXBig, sizeYBig);  // result is not padded
     unsigned char * imgConvVN = normalize(imgConvV, sizeX, sizeY);  // debugging
@@ -72,5 +72,7 @@ int main(int argc, char *argv[]){
     unsigned char * imgSobelN = normalize(imgSobel, sizeX, sizeY);
     writeImg(imgS, imgSobelN, sizeX, sizeY);
 
+    unsigned char * imgSobelNBin = imgBin(imgSobelN, THRESHOLD, sizeX, sizeY);
+    writeImg(imgSB, imgSobelNBin, sizeX, sizeY);
     return 0;
 }
