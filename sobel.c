@@ -16,7 +16,7 @@ signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 unsigned THRESHOLD = 55;  // above: white, below: black
 
 
-unsigned NUM_ARGS = 3;  // number if command line arguments
+unsigned NUM_ARGS = 5;  // number if command line arguments
 
 char imgH[] = "horizontal.pgm";
 char imgV[] = "vertical.pgm";
@@ -45,6 +45,10 @@ int main(int argc, char *argv[]){
     for (unsigned i = 1; i < argc; i += 2){
         if (strcmp(argv[i], "--path") == 0){
             imgSobelPath = argv[i + 1];
+        }
+        else if (strcmp(argv[i], "--threshold") == 0){
+            long temp = strtol(argv[i + 1], NULL, 10);
+            THRESHOLD = (unsigned) temp;
         }
     }
 
