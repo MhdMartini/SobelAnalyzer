@@ -1,2 +1,5 @@
-*.pgm
-*.o
+SobelAnalyzer
+SobelAnalyzer.o
+imgIo.o
+imgOp.o
+V.pgm
