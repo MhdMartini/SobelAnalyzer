@@ -1,5 +1,5 @@
 /*
-    Script to perform image operations necessary for spatial 3x3 filter applications
+    Script to get image shape and perform image operations necessary for spatial 3x3 filter applications
     Author  :   Mohamed Martini
     Date    :   04/01/2021
 */
@@ -8,9 +8,9 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define MIN(a, b) (a < b) ? a : b
 
-unsigned * get_size(char imgName[])
-{
+unsigned * get_size(char imgName[]){
     // take in image name in return its size as [sizeX, sizeY]
     unsigned sizeX;  // width
     unsigned sizeY;  // height
@@ -27,8 +27,7 @@ unsigned * get_size(char imgName[])
     return size;
 }
 
-unsigned * get_coords(unsigned index, unsigned sizeX)
-{
+unsigned * get_coords(unsigned index, unsigned sizeX){
     // take an array's index and width and return the i, j coordinates (row, col)
     unsigned *coords;
     coords = (unsigned *) malloc(2);
@@ -36,7 +35,6 @@ unsigned * get_coords(unsigned index, unsigned sizeX)
     coords[1] = index % sizeX;
     return coords;
 }
-
 unsigned get_index(unsigned i, unsigned j, unsigned sizeX){
     // take in row and col and width, and return the linear index
     return sizeX * i + j;
@@ -52,10 +50,12 @@ unsigned char * imgPad(unsigned char *img, unsigned sizeXSmall, unsigned sizeYSm
     // copy the smaller image into the new one
     unsigned indexSmall = 0;
     unsigned i, j;
+    unsigned * coords;
     bool cond1, cond2, cond3, cond4;  // conditions at which we pad
     for (unsigned indexBig = 0; indexBig < sizeXBig * sizeYBig; indexBig ++){
-        i = indexBig / sizeXBig;  // row
-        j = indexBig % sizeYBig;  // col
+        coords = get_coords(indexBig, sizeXBig);
+        i = coords[0];  // row
+        j = coords[1];  // col
         // conditions that indicate we are at the boundary. If at boundery, value is already zero
         // otherwise copy from old array and increment small index
         cond1 = (i == 0);
@@ -68,9 +68,10 @@ unsigned char * imgPad(unsigned char *img, unsigned sizeXSmall, unsigned sizeYSm
         paddedImg[indexBig] = img[indexSmall];
         indexSmall += 1;
     }
+    return paddedImg;
 }
 
-signed * imgConv(unsigned char *imgPadded, signed *filter, unsigned sizeXBig, unsigned sizeYBig){
+signed * imgConv(unsigned char *imgPadded, signed filter[9], unsigned sizeXBig, unsigned sizeYBig){
     // take an a 1D image and a 1D filter and apply the filter as if inputs are two dimentional
     // return filtered image or integers (to be normalized)
     unsigned sizeXSmall = sizeXBig - 2;
@@ -95,12 +96,15 @@ signed * imgConv(unsigned char *imgPadded, signed *filter, unsigned sizeXBig, un
     // convolve
     unsigned indexSmall = 0;
     unsigned i, j;
+    unsigned * coords;
     bool cond1, cond2, cond3, cond4;  // conditions at which we pad
     signed filterVal;  // to hold colvolutuion result
+    unsigned center, up, down, left, right, upRight, upLeft, downRight, downLeft;
 
     for (unsigned indexBig = 0; indexBig < sizeXBig * sizeYBig; indexBig ++){
-        i = indexBig / sizeXBig;  // row
-        j = indexBig % sizeYBig;  // col
+        coords = get_coords(indexBig, sizeXBig);
+        i = coords[0];  // row
+        j = coords[1];  // col
 
         cond1 = (i == 0);
         cond2 = (i == (sizeYBig - 1));
@@ -111,7 +115,6 @@ signed * imgConv(unsigned char *imgPadded, signed *filter, unsigned sizeXBig, un
         }
 
         // get indecies of the 3x3 around the pixel to be filtered
-        unsigned center, up, down, left, right, upRight, upLeft, downRight, downLeft;
         center      = get_index(i    , j    , sizeXBig);
         up          = get_index(i - 1, j    , sizeXBig);
         down        = get_index(i + 1, j    , sizeXBig);
@@ -156,4 +159,14 @@ unsigned char * normalize(signed * imgConv, unsigned sizeX, unsigned sizeY) {
         imgNorm[i] = 255 * (temp - min)/(max - min);
     }
     return imgNorm;
+}
+
+unsigned char * imgAdd(unsigned char * img1, unsigned char * img2, unsigned sizeX, unsigned sizeY){
+    unsigned char * result;
+    result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
+    for (unsigned index = 0; index < sizeX * sizeY; index++){
+        result[index] = img1[index] + img2[index];
+        // result[index] = MIN(img1[index], img2[index]);
+    }
+    return result;
 }

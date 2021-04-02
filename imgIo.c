@@ -1,5 +1,8 @@
-// functions readImg and writeImg to read and write pgm images, and get_size function
-// to get the width and height of a pgm image
+/*
+    functions readImg and writeImg to read and write pgm images
+    Author  :   Mohamed Martini
+    Date    :   03/10/2021
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
