@@ -49,8 +49,8 @@ void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
             imgSobelNoisyBinBest = imgSobelNoisyBin;
         }
     }
-    printf("Best Accuracy:\t%.2f percent\n", accBest);
-    printf("Threshold:\t%u\n", threshTempBest);
+    printf("\tBest Accuracy:\t%.2f percent\n", accBest);
+    printf("\tThreshold:\t%u\n", threshTempBest);
 
     snprintf(outNameBin, sizeof(outNameBin), "output/%s_Best_threshold_at_%u.pgm", kind, level);
     writeImg(outNameBin, imgSobelNoisyBinBest, sizeX, sizeY);
@@ -87,13 +87,13 @@ int main(int argc, char *argv[]){
     for (unsigned i = 0; i < sizeof(NOISE)/sizeof(NOISE[0]); i++){
 
         unsigned char * temp = imgNoise(img, NOISE[i], sizeX, sizeY);
-        printf("\nAnalyzing the Sobel Filter at noise level '%u'...\n", NOISE[i]);
+        printf("\n* Noise level '%u'. Original:\n", NOISE[i]);
         analyze(temp, NOISE[i], "Noisy");
 
         unsigned char * imgPadded = imgPad(temp, sizeX, sizeY);
         signed * imgSmoothed = imgConv(imgPadded, SMOOTH, sizeX + 2, sizeY + 2);  // result is not padded
         unsigned char * imgSmoothedN = normalize(imgSmoothed, sizeX, sizeY);
-        printf("Analyzing the Sobel Filter on Smoothed Image at noise level '%u'...\n", NOISE[i]);
+        printf("* Noise level '%u'. Smoothed:\n", NOISE[i]);
         analyze(imgSmoothedN, NOISE[i], "Smoothed");
     }
 }
