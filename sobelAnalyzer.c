@@ -13,15 +13,17 @@ unsigned NOISE[4] = {8, 16, 32, 64};  // levels of noise to be applied
 unsigned char * gTruth, * img, * imgSobelNorm, * imgSobelN1, * imgSobelN2, * imgSobelN3, * imgSobelN4;
 unsigned * shape;
 unsigned sizeX, sizeY;
-unsigned SMOOTH[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+unsigned SMOOTH[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};  // averaging filter
+bool OUTPUT = 0;
 
 
 void print_help(){
     // print help menu
-    printf("\n********************************** SOBEL ANALYZER **********************************\n\n");
-    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD]\n");
-    printf("\n\tIMAGE_PATH\tPath to the Sobel filter input image. Default: 'test_images/cake.pgm'");
-    printf("\n\tTHRESHOLD\tThreshold to binarize the Sobel filtered input image. Default: 55\n");
+    printf("\n************************************** SOBEL ANALYZER **************************************\n\n");
+    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD] [--output OUTPUT]\n");
+    printf("\n\tIMAGE_PATH\t-str- Path to the Sobel filter input image. Default: 'test_images/cake.pgm'");
+    printf("\n\tTHRESHOLD\t-unsigned- Threshold to binarize the Sobel filtered input image. Default: 55\n");
+    printf("\tOUTPUT\t\t-bool- 1: Images output. 0: No output. Default: 0\n");
 }
 
 void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
@@ -38,8 +40,9 @@ void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
     char outNameBin[100];
 
     snprintf(outName, sizeof(outName), "output/%s_at_%u.pgm", kind, level);
-    writeImg(outName, imgNoisy, sizeX, sizeY);
-
+    if (OUTPUT){
+        writeImg(outName, imgNoisy, sizeX, sizeY);
+    }
     for (unsigned threshTemp = 0; threshTemp < 255; threshTemp ++){
         imgSobelNoisyBin = imgBin(imgSobelNoisy, threshTemp, sizeX, sizeY);
         acc = imgsComp(gTruth, imgSobelNoisyBin, sizeX, sizeY);
@@ -53,8 +56,9 @@ void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
     printf("\tThreshold:\t%u\n", threshTempBest);
 
     snprintf(outNameBin, sizeof(outNameBin), "output/%s_Best_threshold_at_%u.pgm", kind, level);
-    writeImg(outNameBin, imgSobelNoisyBinBest, sizeX, sizeY);
-
+    if (OUTPUT){
+        writeImg(outNameBin, imgSobelNoisyBinBest, sizeX, sizeY);
+    }
 }
 
 int main(int argc, char *argv[]){
@@ -66,6 +70,9 @@ int main(int argc, char *argv[]){
         else if (strcmp(argv[i], "--threshold") == 0){
             long temp = strtol(argv[i + 1], NULL, 10);
             threshold = (unsigned) temp;
+        }
+        else if (strcmp(argv[i], "--output") == 0){
+            OUTPUT = (strcmp(argv[i+1], "1") == 0);
         }
         else if (strcmp(argv[i], "--help") == 0){
             print_help();
