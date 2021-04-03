@@ -21,7 +21,8 @@ void print_help(){
 }
 
 void analyze(unsigned char * imgNoisy){
-    printf("%s", "hello");
+    // apply sobel, binarize, and find best threshold
+    unsigned char * imgSobelNoisy = imgSobel(path, threshold, 0, 256, 256);
 }
 
 int main(int argc, char *argv[]){
@@ -49,7 +50,7 @@ int main(int argc, char *argv[]){
     unsigned sizeY = shape[1];
 
     // save ground truth
-    imgSobelNorm = imgSobel(path, threshold, 0, sizeX, sizeY);
+    imgSobelNorm = imgSobel(img, threshold, 1, sizeX, sizeY);
     gTruth = imgBin(imgSobelNorm, threshold, sizeX, sizeY);
 
     // apply four levels of noise
