@@ -9,8 +9,8 @@
 
 char * path = "test_images/cake.pgm";
 unsigned threshold = 55;  // default value. Optimized for mri
-unsigned * NOISE = {8, 16, 32, 64};  // levels of noise to be applied
-unsigned char * gTruth, img, imgSobel_, imgSobelN1, imgSobelN2, imgSobelN3, imgSobelN4;
+unsigned NOISE[4] = {8, 16, 32, 64};  // levels of noise to be applied
+unsigned char * gTruth, * img, * imgSobelNorm, * imgSobelN1, * imgSobelN2, * imgSobelN3, * imgSobelN4;
 
 void print_help(){
     // print help menu
@@ -45,7 +45,10 @@ int main(int argc, char *argv[]){
     unsigned sizeY = shape[1];
 
     // save ground truth
-    imgSobel_ = imgSobel(path, threshold, 1, sizeX, sizeY);
+    imgSobelNorm = imgSobel(path, threshold, 0, sizeX, sizeY);
+    gTruth = imgBin(imgSobelNorm, threshold, sizeX, sizeY);
+    writeImg("test", gTruth, sizeX, sizeY);
+
 }
 
 // int main(){

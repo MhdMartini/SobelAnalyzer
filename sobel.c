@@ -17,8 +17,8 @@ char imgS[] = "sobel.pgm";
 char imgSB[] = "sobel_binary.pgm";
 
 unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned output, unsigned sizeX, unsigned sizeY){
-    // read image path, apply both sobles and add result. Normalize and save the result, then threshold and save. Return binary image.
-    // only save images if output is not 0
+    // read image path, apply both sobles and add result. Normalize and save the result, then threshold and save.
+    // Return normalized sobel image (unsigned char). Only save images if output is not 0
     unsigned char * img = readImg(imgSobelPath);
     unsigned sizeXBig = sizeX + 2;  // size of padded image
     unsigned sizeYBig = sizeY + 2;
