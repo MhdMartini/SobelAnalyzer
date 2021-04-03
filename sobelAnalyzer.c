@@ -8,7 +8,7 @@
 #include "sobel.h"
 
 char * path = "test_images/cake.pgm";
-unsigned threshold = 55;
+unsigned threshold = 55;  // default value. Optimized for mri
 
 void print_help(){
     // print help menu
@@ -34,8 +34,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    printf("%s\n", path);
-    printf("%u\n", threshold);
+    imgSobel(path, threshold, 0, 256, 256);
 }
 
 // int main(){

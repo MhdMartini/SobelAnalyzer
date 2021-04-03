@@ -35,13 +35,13 @@ unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned outpu
     signed * imgSobel_ = imgAdd(imgConvV, imgConvH, sizeX, sizeY);  // add vertical and horizontal filters
     unsigned char * imgSobelN = normalize(imgSobel_, sizeX, sizeY);
     if (output){
+        // if output, save sobel image, binarize and save binary image
         writeImg(imgS, imgSobelN, sizeX, sizeY);
-    }
-    unsigned char * imgSobelNBin = imgBin(imgSobelN, threshold, sizeX, sizeY);
-    if (output){
+        unsigned char * imgSobelNBin = imgBin(imgSobelN, threshold, sizeX, sizeY);
         writeImg(imgSB, imgSobelNBin, sizeX, sizeY);
     }
-    return imgSobelNBin;
+
+    return imgSobelN;
 }
 
 // int main(){
