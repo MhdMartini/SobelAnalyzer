@@ -13,8 +13,8 @@
 signed sobelV[9] = {1, 0, -1, 2, 0, -2, 1, 0, -1};
 signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 
-char imgS[] = "sobel.pgm";
-char imgSB[] = "sobel_binary.pgm";
+char imgS[] = "output/sobel.pgm";
+char imgSB[] = "output/gTruth.pgm";
 
 
 unsigned char * imgSobel(unsigned char * img, unsigned threshold, unsigned output, unsigned sizeX, unsigned sizeY){

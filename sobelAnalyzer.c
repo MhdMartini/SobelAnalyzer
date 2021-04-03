@@ -33,7 +33,12 @@ void analyze(unsigned char * imgNoisy, unsigned level){
     unsigned threshTempBest = 0;
     float acc;
     float accBest = 0;
-    char outName[50];
+    char outName[50];  // to save noisy image
+    char outNameBin[50];
+
+    snprintf(outName, sizeof(outName), "output/Original_at_%u.pgm", level);
+    writeImg(outName, imgNoisy, sizeX, sizeY);
+
     for (unsigned threshTemp = 0; threshTemp < 255; threshTemp ++){
         imgSobelNoisyBin = imgBin(imgSobelNoisy, threshTemp, sizeX, sizeY);
         acc = imgsComp(gTruth, imgSobelNoisyBin, sizeX, sizeY);
@@ -46,8 +51,8 @@ void analyze(unsigned char * imgNoisy, unsigned level){
     printf("Best Accuracy:\t%.2f percent\n", accBest);
     printf("Threshold:\t%u\n", threshTempBest);
 
-    snprintf(outName, sizeof(outName), "Best_at_%u.pgm", level);
-    writeImg(outName, imgSobelNoisyBinBest, sizeX, sizeY);
+    snprintf(outNameBin, sizeof(outNameBin), "output/Best_threshold_at_%u.pgm", level);
+    writeImg(outNameBin, imgSobelNoisyBinBest, sizeX, sizeY);
 
 }
 
