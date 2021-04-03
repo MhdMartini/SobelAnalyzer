@@ -46,9 +46,8 @@ void analyze(unsigned char * imgNoisy, unsigned level){
     printf("Best Accuracy:\t%.2f percent\n", accBest);
     printf("Threshold:\t%u\n", threshTempBest);
 
-    sprintf(outName, "Best_at_%u.pgm", level);
-    puts(outName);
-    writeImg(outName, imgSobelNoisyBinBest, sizeX, sizeY);  // debug
+    snprintf(outName, sizeof(outName), "Best_at_%u.pgm", level);
+    writeImg(outName, imgSobelNoisyBinBest, sizeX, sizeY);
 
 }
 
