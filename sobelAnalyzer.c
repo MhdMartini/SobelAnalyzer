@@ -13,12 +13,13 @@ unsigned threshold = 55;
 void print_help(){
     // print help menu
     printf("\n********************************** SOBEL ANALYZER **********************************\n\n");
-    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer --path IMAGE_PATH\n");
-    printf("\n\tIMAGE_PATH\tPath to the Sobel filter input image\n");
+    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD]\n");
+    printf("\n\tIMAGE_PATH\tPath to the Sobel filter input image. Default: 'test_images/cake.pgm'");
+    printf("\n\tTHRESHOLD\tThreshold to binarize the Sobel filtered input image. Default: 55\n");
 }
 
 int main(int argc, char *argv[]){
-    // handle input arguments
+    // parse input arguments
     for (unsigned i = 1; i < argc; i++){
         if (strcmp(argv[i], "--path") == 0){
             path = argv[i + 1];
