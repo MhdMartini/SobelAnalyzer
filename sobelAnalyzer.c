@@ -19,7 +19,7 @@ bool OUTPUT = 0;
 
 void print_help(){
     // print help menu
-    printf("\n************************************** SOBEL ANALYZER **************************************\n\n");
+    printf("\n****************************************** SOBEL ANALYZER ******************************************\n\n");
     printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD] [--output OUTPUT]\n");
     printf("\n\tIMAGE_PATH\t-str- Path to the Sobel filter input image. Default: 'test_images/cake.pgm'");
     printf("\n\tTHRESHOLD\t-unsigned- Threshold to binarize the Sobel filtered input image. Default: 55\n");
@@ -52,7 +52,7 @@ void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
             imgSobelNoisyBinBest = imgSobelNoisyBin;
         }
     }
-    printf("\tBest Accuracy:\t%.2f percent\n", accBest);
+    printf("\tBest Accuracy:\t%.0f%%\n", accBest);
     printf("\tThreshold:\t%u\n", threshTempBest);
 
     snprintf(outNameBin, sizeof(outNameBin), "output/%s_Best_threshold_at_%u.pgm", kind, level);
@@ -100,7 +100,9 @@ int main(int argc, char *argv[]){
         unsigned char * imgPadded = imgPad(temp, sizeX, sizeY);
         signed * imgSmoothed = imgConv(imgPadded, SMOOTH, sizeX + 2, sizeY + 2);  // result is not padded
         unsigned char * imgSmoothedN = normalize(imgSmoothed, sizeX, sizeY);
-        printf("* Noise level '%u'. Smoothed:\n", NOISE[i]);
+        printf("  Noise level '%u'. Smoothed:\n", NOISE[i]);
         analyze(imgSmoothedN, NOISE[i], "Smoothed");
+
+        printf("%s", "=============================\n");
     }
 }
