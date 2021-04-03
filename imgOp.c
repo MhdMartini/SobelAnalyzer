@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define MAX(a, b) (a < b) ? b : a
 #define MIN(a, b) (a < b) ? a : b
 
 unsigned * get_size(char imgName[]){
@@ -177,6 +178,21 @@ unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, 
     result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
     for (unsigned i = 0; i < sizeX * sizeY; i++){
         result[i] = 255 * (img[i] > threshold);
+    }
+    return result;
+}
+
+unsigned char * imgNoise(unsigned char * img, unsigned level, sizeX, sizeY){
+    // get an unsigned char image and return unsigned char image with noise
+    unsigned char * result;
+    result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
+    int randVal = rand();
+    randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
+    randVal = MAX(0, randVal);
+    randVal = MIN(andVal, 255);
+
+    for (unsigned i = 0; i < sizeX * sizeY; i++){
+        result[i] += randVal;
     }
     return result;
 }
