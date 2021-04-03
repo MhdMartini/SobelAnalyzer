@@ -23,7 +23,7 @@ void print_help(){
     printf("\n\tTHRESHOLD\tThreshold to binarize the Sobel filtered input image. Default: 55\n");
 }
 
-void analyze(unsigned char * imgNoisy){
+void analyze(unsigned char * imgNoisy, unsigned level){
     // apply sobel, and find best threshold for binarization
 
     unsigned char * imgSobelNoisy = imgSobel(imgNoisy, threshold, 0, sizeX, sizeY);
@@ -33,6 +33,7 @@ void analyze(unsigned char * imgNoisy){
     unsigned threshTempBest = 0;
     float acc;
     float accBest = 0;
+    char outName[50];
     for (unsigned threshTemp = 0; threshTemp < 255; threshTemp ++){
         imgSobelNoisyBin = imgBin(imgSobelNoisy, threshTemp, sizeX, sizeY);
         acc = imgsComp(gTruth, imgSobelNoisyBin, sizeX, sizeY);
@@ -44,7 +45,10 @@ void analyze(unsigned char * imgNoisy){
     }
     printf("Best Accuracy:\t%.2f percent\n", accBest);
     printf("Threshold:\t%u\n", threshTempBest);
-    writeImg("bin_noise", imgSobelNoisyBinBest, sizeX, sizeY);  // debug
+
+    sprintf(outName, "Best_at_%u.pgm", level);
+    puts(outName);
+    writeImg(outName, imgSobelNoisyBinBest, sizeX, sizeY);  // debug
 
 }
 
@@ -78,7 +82,7 @@ int main(int argc, char *argv[]){
     for (unsigned i = 0; i < sizeof(NOISE)/sizeof(NOISE[0]); i++){
         unsigned char * temp = imgNoise(img, NOISE[i], sizeX, sizeY);
         printf("\nAnalyzing the Sobel Filter at noise level '%u'...\n", NOISE[i]);
-        analyze(temp);
+        analyze(temp, NOISE[i]);
     }
 
 
