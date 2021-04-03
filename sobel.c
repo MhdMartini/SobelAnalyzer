@@ -16,8 +16,9 @@ signed sobelH[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 char imgS[] = "sobel.pgm";
 char imgSB[] = "sobel_binary.pgm";
 
-unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned sizeX, unsigned sizeY){
+unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned output, unsigned sizeX, unsigned sizeY){
     // read image path, apply both sobles and add result. Normalize and save the result, then threshold and save. Return binary image.
+    // only save images if output is not 0
     unsigned char * img = readImg(imgSobelPath);
     unsigned sizeXBig = sizeX + 2;  // size of padded image
     unsigned sizeYBig = sizeY + 2;
@@ -33,11 +34,13 @@ unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned sizeX
     // combine, normalize and save image
     signed * imgSobel_ = imgAdd(imgConvV, imgConvH, sizeX, sizeY);  // add vertical and horizontal filters
     unsigned char * imgSobelN = normalize(imgSobel_, sizeX, sizeY);
-    writeImg(imgS, imgSobelN, sizeX, sizeY);
-
+    if (output){
+        writeImg(imgS, imgSobelN, sizeX, sizeY);
+    }
     unsigned char * imgSobelNBin = imgBin(imgSobelN, threshold, sizeX, sizeY);
-    writeImg(imgSB, imgSobelNBin, sizeX, sizeY);
-
+    if (output){
+        writeImg(imgSB, imgSobelNBin, sizeX, sizeY);
+    }
     return imgSobelNBin;
 }
 
