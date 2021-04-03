@@ -182,28 +182,44 @@ unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, 
     return result;
 }
 
-unsigned char * imgNoise(unsigned char * img, unsigned level, unsigned sizeX, unsigned sizeY){
+// unsigned char * imgNoise(unsigned char * img, unsigned level, unsigned sizeX, unsigned sizeY){
+//     // get an unsigned char image and return unsigned char image with noise
+//     unsigned char * result;
+//     result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
+//     int randVal = rand();
+//     randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
+
+//     for (unsigned i = 0; i < sizeX * sizeY; i++){
+//         result[i] += randVal;
+//         result[i] = MAX(0, result[i]);
+//         result[i] = MIN(result[i], 255);
+//     }
+//     return result;
+// }
+
+unsigned char * imgNoise(unsigned char img[], unsigned level, unsigned sizeX, unsigned sizeY){
     // get an unsigned char image and return unsigned char image with noise
     unsigned char * result;
     result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
-    int randVal = rand();
-    randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
 
     for (unsigned i = 0; i < sizeX * sizeY; i++){
-        result[i] += randVal;
-        result[i] = MAX(0, result[i]);
-        result[i] = MIN(result[i], 255);
+        float randVal = (float) rand();
+        randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
+        randVal += img[i];
+        randVal = MAX(0, randVal);
+        randVal = MIN(randVal, 255);
+        // result[i] = (unsigned) randVal;
+        result[i] = (unsigned) randVal;
     }
     return result;
 }
 
-float imgsComp(unsigned char * img1, unsigned char * img2, unsigned sizeX, unsigned sizeY){
+float imgsComp(unsigned char gTruth[], unsigned char img[], unsigned sizeX, unsigned sizeY){
     // return a percentage score for how many pixels match between two images
     float acc = 0;
     for (unsigned i = 0; i < sizeX * sizeY; i++){
-        if (img1[i] == img2[i]){
-            acc += 1;
-        }
+        acc += (gTruth[i] == img[i]) ? 1 : -1;
     }
     return acc / (sizeX * sizeY) * 100;
 }
+

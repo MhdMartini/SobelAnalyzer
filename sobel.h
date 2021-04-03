@@ -4,5 +4,5 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-unsigned char * imgSobel(char imgSobelPath[], unsigned threshold, unsigned output, unsigned sizeX, unsigned sizeY);
+unsigned char * imgSobel(unsigned char * img, unsigned threshold, unsigned output, unsigned sizeX, unsigned sizeY);
 #endif

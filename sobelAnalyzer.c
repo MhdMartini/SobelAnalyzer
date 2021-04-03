@@ -11,6 +11,9 @@ char * path = "test_images/cake.pgm";
 unsigned threshold = 55;  // default value. Optimized for mri
 unsigned NOISE[4] = {8, 16, 32, 64};  // levels of noise to be applied
 unsigned char * gTruth, * img, * imgSobelNorm, * imgSobelN1, * imgSobelN2, * imgSobelN3, * imgSobelN4;
+unsigned * shape;
+unsigned sizeX, sizeY;
+
 
 void print_help(){
     // print help menu
@@ -21,8 +24,28 @@ void print_help(){
 }
 
 void analyze(unsigned char * imgNoisy){
-    // apply sobel, binarize, and find best threshold
-    unsigned char * imgSobelNoisy = imgSobel(path, threshold, 0, 256, 256);
+    // apply sobel, and find best threshold for binarization
+
+    unsigned char * imgSobelNoisy = imgSobel(imgNoisy, threshold, 0, sizeX, sizeY);
+    unsigned char * imgSobelNoisyBin;
+    unsigned char * imgSobelNoisyBinBest;
+    unsigned threshTemp;
+    unsigned threshTempBest = 0;
+    float acc;
+    float accBest = 0;
+    for (unsigned threshTemp = 0; threshTemp < 255; threshTemp ++){
+        imgSobelNoisyBin = imgBin(imgSobelNoisy, threshTemp, sizeX, sizeY);
+        acc = imgsComp(gTruth, imgSobelNoisyBin, sizeX, sizeY);
+        if (acc > accBest){
+            accBest = acc;
+            threshTempBest = threshTemp;
+            imgSobelNoisyBinBest = imgSobelNoisyBin;
+        }
+    }
+    printf("Best Accuracy:\t%.2f percent\n", accBest);
+    printf("Threshold:\t%u\n", threshTempBest);
+    writeImg("bin_noise", imgSobelNoisyBinBest, sizeX, sizeY);  // debug
+
 }
 
 int main(int argc, char *argv[]){
@@ -41,32 +64,22 @@ int main(int argc, char *argv[]){
         }
     }
 
-    // imgSobel(path, threshold, 0, 256, 256);
-
     // read image and get its size
     img = readImg(path);
-    unsigned * shape = get_size(path);
-    unsigned sizeX = shape[0];
-    unsigned sizeY = shape[1];
+    shape = get_size(path);
+    sizeX = shape[0];
+    sizeY = shape[1];
 
     // save ground truth
     imgSobelNorm = imgSobel(img, threshold, 1, sizeX, sizeY);
     gTruth = imgBin(imgSobelNorm, threshold, sizeX, sizeY);
 
-    // apply four levels of noise
-    imgSobelN1 = imgNoise(img, NOISE[0], sizeX, sizeY);
-    imgSobelN2 = imgNoise(img, NOISE[1], sizeX, sizeY);
-    imgSobelN3 = imgNoise(img, NOISE[2], sizeX, sizeY);
-    imgSobelN4 = imgNoise(img, NOISE[3], sizeX, sizeY);
+    // apply four levels of noise, and analyze the sobel filter at each level.
+    for (unsigned i = 0; i < sizeof(NOISE)/sizeof(NOISE[0]); i++){
+        unsigned char * temp = imgNoise(img, NOISE[i], sizeX, sizeY);
+        printf("\nAnalyzing the Sobel Filter at noise level '%u'...\n", NOISE[i]);
+        analyze(temp);
+    }
 
-    // analyze each noise level
-    analyze(imgSobelN1);
+
 }
-
-// int main(){
-//     // unsigned * shape = get_size(imgSobelPath);
-//     // unsigned sizeX = shape[0];
-//     // unsigned sizeY = shape[1];
-//     imgSobel("test_images/cake.pgm", 55, 1, 256, 256);
-//     return 0;
-// }
