@@ -182,14 +182,14 @@ unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, 
     return result;
 }
 
-unsigned char * imgNoise(unsigned char * img, unsigned level, sizeX, sizeY){
+unsigned char * imgNoise(unsigned char * img, unsigned level, unsigned sizeX, unsigned sizeY){
     // get an unsigned char image and return unsigned char image with noise
     unsigned char * result;
     result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
     int randVal = rand();
     randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
     randVal = MAX(0, randVal);
-    randVal = MIN(andVal, 255);
+    randVal = MIN(randVal, 255);
 
     for (unsigned i = 0; i < sizeX * sizeY; i++){
         result[i] += randVal;
