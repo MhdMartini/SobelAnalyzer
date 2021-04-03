@@ -182,21 +182,6 @@ unsigned char * imgBin(unsigned char * img, unsigned threshold, unsigned sizeX, 
     return result;
 }
 
-// unsigned char * imgNoise(unsigned char * img, unsigned level, unsigned sizeX, unsigned sizeY){
-//     // get an unsigned char image and return unsigned char image with noise
-//     unsigned char * result;
-//     result = (unsigned char*) calloc(sizeof(unsigned char), sizeX * sizeY);
-//     int randVal = rand();
-//     randVal = ((2 * randVal - RAND_MAX)/RAND_MAX) * level;
-
-//     for (unsigned i = 0; i < sizeX * sizeY; i++){
-//         result[i] += randVal;
-//         result[i] = MAX(0, result[i]);
-//         result[i] = MIN(result[i], 255);
-//     }
-//     return result;
-// }
-
 unsigned char * imgNoise(unsigned char img[], unsigned level, unsigned sizeX, unsigned sizeY){
     // get an unsigned char image and return unsigned char image with noise
     unsigned char * result;
@@ -208,7 +193,6 @@ unsigned char * imgNoise(unsigned char img[], unsigned level, unsigned sizeX, un
         randVal += img[i];
         randVal = MAX(0, randVal);
         randVal = MIN(randVal, 255);
-        // result[i] = (unsigned) randVal;
         result[i] = (unsigned) randVal;
     }
     return result;
@@ -222,4 +206,3 @@ float imgsComp(unsigned char gTruth[], unsigned char img[], unsigned sizeX, unsi
     }
     return acc / (sizeX * sizeY) * 100;
 }
-

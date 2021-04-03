@@ -13,6 +13,7 @@ unsigned NOISE[4] = {8, 16, 32, 64};  // levels of noise to be applied
 unsigned char * gTruth, * img, * imgSobelNorm, * imgSobelN1, * imgSobelN2, * imgSobelN3, * imgSobelN4;
 unsigned * shape;
 unsigned sizeX, sizeY;
+unsigned SMOOTH[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 
 void print_help(){
@@ -84,10 +85,15 @@ int main(int argc, char *argv[]){
 
     // apply four levels of noise, and analyze the sobel filter at each level.
     for (unsigned i = 0; i < sizeof(NOISE)/sizeof(NOISE[0]); i++){
+
         unsigned char * temp = imgNoise(img, NOISE[i], sizeX, sizeY);
         printf("\nAnalyzing the Sobel Filter at noise level '%u'...\n", NOISE[i]);
         analyze(temp, NOISE[i], "Noisy");
+
+        unsigned char * imgPadded = imgPad(temp, sizeX, sizeY);
+        signed * imgSmoothed = imgConv(imgPadded, SMOOTH, sizeX + 2, sizeY + 2);  // result is not padded
+        unsigned char * imgSmoothedN = normalize(imgSmoothed, sizeX, sizeY);
+        printf("Analyzing the Sobel Filter on Smoothed Image at noise level '%u'...\n", NOISE[i]);
+        analyze(imgSmoothedN, NOISE[i], "Smoothed");
     }
-
-
 }
