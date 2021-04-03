@@ -87,7 +87,7 @@ int main(int argc, char *argv[]){
     sizeY = shape[1];
 
     // save ground truth
-    imgSobelNorm = imgSobel(img, threshold, 1, sizeX, sizeY);
+    imgSobelNorm = imgSobel(img, threshold, OUTPUT, sizeX, sizeY);
     gTruth = imgBin(imgSobelNorm, threshold, sizeX, sizeY);
 
     // apply four levels of noise, and analyze the sobel filter at each level.
