@@ -20,6 +20,10 @@ void print_help(){
     printf("\n\tTHRESHOLD\tThreshold to binarize the Sobel filtered input image. Default: 55\n");
 }
 
+void analyze(unsigned char * imgNoisy){
+    printf("%s", "hello");
+}
+
 int main(int argc, char *argv[]){
     // parse input arguments
     for (unsigned i = 1; i < argc; i++){
@@ -47,8 +51,15 @@ int main(int argc, char *argv[]){
     // save ground truth
     imgSobelNorm = imgSobel(path, threshold, 0, sizeX, sizeY);
     gTruth = imgBin(imgSobelNorm, threshold, sizeX, sizeY);
-    writeImg("test", gTruth, sizeX, sizeY);
 
+    // apply four levels of noise
+    imgSobelN1 = imgNoise(img, NOISE[0], sizeX, sizeY);
+    imgSobelN2 = imgNoise(img, NOISE[1], sizeX, sizeY);
+    imgSobelN3 = imgNoise(img, NOISE[2], sizeX, sizeY);
+    imgSobelN4 = imgNoise(img, NOISE[3], sizeX, sizeY);
+
+    // analyze each noise level
+    analyze(imgSobelN1);
 }
 
 // int main(){
