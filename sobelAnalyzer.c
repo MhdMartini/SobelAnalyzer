@@ -29,7 +29,7 @@ void print_help(){
     printf("\n\t--path\t\t-str- Path to the Sobel filter input image. Default: 'test_images/cake.pgm'");
     printf("\n\t--threshold\t-unsigned- Threshold to binarize the Sobel filtered input image. Default: 55\n");
     printf("\t-output\t\tflag to save output images. Does not apply if -sobel is used.\n");
-    printf("\t-sobel\t\tflag to apply sobel with no analysis. Sobel and thresholded Sobel images are saved.\n");
+    printf("\t-sobel\t\tflag to apply the Sobel filter with no analysis. Sobel and thresholded Sobel images are saved.\n");
 }
 
 void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
