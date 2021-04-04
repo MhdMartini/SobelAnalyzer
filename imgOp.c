@@ -202,7 +202,7 @@ float imgsComp(unsigned char gTruth[], unsigned char img[], unsigned sizeX, unsi
     // return a percentage score for how many pixels match between two images
     float acc = 0;
     for (unsigned i = 0; i < sizeX * sizeY; i++){
-        acc += (gTruth[i] == img[i]) ? 1 : -1;
+        acc += (gTruth[i] == img[i]) ? 1 : 0;
     }
     return acc / (sizeX * sizeY) * 100;
 }
