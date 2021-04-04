@@ -15,15 +15,17 @@ unsigned * shape;
 unsigned sizeX, sizeY;
 unsigned SMOOTH[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};  // averaging filter
 bool OUTPUT = 0;
+bool SOBEL = 0;  // 0: apply sobel only, no analysis, 1: analyze
 
 
 void print_help(){
     // print help menu
     printf("\n****************************************** SOBEL ANALYZER ******************************************\n\n");
-    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD] [--output OUTPUT]\n");
+    printf("Please run the sobelAnalyzer as follows:\n\n\t./sobelAnalyzer [--path IMAGE_PATH] [--threshold THRESHOLD] [-output] [-sobel]\n");
     printf("\n\tIMAGE_PATH\t-str- Path to the Sobel filter input image. Default: 'test_images/cake.pgm'");
     printf("\n\tTHRESHOLD\t-unsigned- Threshold to binarize the Sobel filtered input image. Default: 55\n");
-    printf("\tOUTPUT\t\t-bool- 1: Images output. 0: No output. Default: 0\n");
+    printf("\t-output\t\tflag to save output images. Does not apply if -sobel is used.\n");
+    printf("\t-sobel\t\tflag to apply sobel with no analysis. Sobel and thresholded Sobel images are saved.\n");
 }
 
 void analyze(unsigned char * imgNoisy, unsigned level, char kind[]){
@@ -71,8 +73,12 @@ int main(int argc, char *argv[]){
             long temp = strtol(argv[i + 1], NULL, 10);
             threshold = (unsigned) temp;
         }
-        else if (strcmp(argv[i], "--output") == 0){
-            OUTPUT = (strcmp(argv[i+1], "1") == 0);
+
+        else if (strcmp(argv[i], "-output") == 0){
+            OUTPUT = 1;
+        }
+        else if (strcmp(argv[i], "-sobel") == 0){
+            SOBEL = 1;
         }
         else if (strcmp(argv[i], "--help") == 0){
             print_help();
@@ -85,6 +91,12 @@ int main(int argc, char *argv[]){
     shape = get_size(path);
     sizeX = shape[0];
     sizeY = shape[1];
+
+    if (SOBEL){
+        // if -sobel is flagged, apply sobel to image, save it, and leave
+        imgSobel(img, threshold, 1, sizeX, sizeY);
+        return 0;
+    }
 
     // save ground truth
     imgSobelNorm = imgSobel(img, threshold, OUTPUT, sizeX, sizeY);
