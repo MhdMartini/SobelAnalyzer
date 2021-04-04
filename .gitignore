@@ -2,8 +2,6 @@ sobel
 sobel.o
 imgIo.o
 imgOp.o
-horizontal.pgm
-vertical.pgm
-sobel.pgm
-sobel_binary.pgm
+sobelAnalyzer.o
+sobelAnalyzer
 cv_hw3.pdf
