@@ -1,4 +1,8 @@
-
+/*
+    Script to analyze the performance of the Sobel Edge Detection Filter on noisy image and noisy images after smoothing.
+    Author  :   Mohamed Martini
+    Date    :   04/04/2021
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

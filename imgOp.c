@@ -1,7 +1,7 @@
 /*
     Script to get image shape and perform image operations necessary for spatial 3x3 filter applications
     Author  :   Mohamed Martini
-    Date    :   04/01/2021
+    Date    :   04/03/2021
 */
 #include <stdio.h>
 #include <stdlib.h>
