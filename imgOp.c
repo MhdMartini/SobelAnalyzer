@@ -201,8 +201,16 @@ unsigned char * imgNoise(unsigned char img[], unsigned level, unsigned sizeX, un
 float imgsComp(unsigned char gTruth[], unsigned char img[], unsigned sizeX, unsigned sizeY){
     // return a percentage score for how many pixels match between two images
     float acc = 0;
+    float unmBlack = 0;
     for (unsigned i = 0; i < sizeX * sizeY; i++){
-        acc += (gTruth[i] == img[i]) ? 1 : 0;
+        if (gTruth[i] == 0){
+            unmBlack += 1;
+            acc += (gTruth[i] == img[i]) ? 0 : -1;
+            continue;
+        }
+        else {
+            acc += (gTruth[i] == img[i]) ? 1 : 0;
+        }
     }
-    return acc / (sizeX * sizeY) * 100;
+    return acc / (sizeX * sizeY - unmBlack) * 100;
 }
